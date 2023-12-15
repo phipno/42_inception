@@ -2,19 +2,9 @@
 FROM debian:bookworm
 
 # Install PHP and WordPress dependencies
-RUN	apt-get update && \
-	apt-get install -y	\
-	curl \
-	mariadb-client \
-	php7.3 \
-	php7.3-fpm \
-	php7.3-curl \
-	php7.3-mysql \
-	php7.3-mbstring \
-	php7.3-xml \
-	php7.3-zip \
-	php7.3-gd \
-	php7.3-imap
+RUN	apt-get update
+RUN apt-get install apt-utils curl wget -y
+RUN apt-get install php8.2 php8.2-cli php8.2-common php8.2-imap php8.2-redis php8.2-snmp php8.2-xml php8.2-mysqli php8.2-zip php8.2-mbstring php8.2-curl libapache2-mod-php -y
 
 # Create a directory for WordPress
 RUN mkdir -p /var/www/html ; mkdir -p /run/php
@@ -28,12 +18,12 @@ RUN	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 # WordPress installation script is imported in /usr/local/bin to be executed as entrypoint
-COPY ./tools/setup_wordpress.sh /usr/local/bin/
+COPY ./tools/setup_wordpress.sh /usr/local/bin/setup_wordpress.sh
 
 # Expose port
 EXPOSE 9000
 
-ENTRYPOINT ["setup_wordpress.sh"]
+ENTRYPOINT ["bash", "/usr/local/bin/setup_wordpress.sh"]
 
 # Start PHP-FPM
-CMD ["php-fpm7.3", "-F"]
+CMD ["php-fpm8.2", "-F"]
