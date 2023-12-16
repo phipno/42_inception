@@ -1,4 +1,4 @@
-DATA_DIR = ~/data
+DADATA_DIR = ~/data
 
 start: $(DATA_DIR)
 	docker compose -f ./srcs/docker-compose.yml up -d --build

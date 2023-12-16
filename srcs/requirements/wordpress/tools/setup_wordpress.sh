@@ -2,7 +2,7 @@
 # set listening port for php fpm
 sed -i "s/listen = 127.0.0.1:9000/listen = 9000/g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf
 # waiting for the database to be ready - could be done in loop too
-# sleep 30
+sleep 30
 wp config create --allow-root \
 									--dbname=${DB_NAME} \
 									--dbuser=${DB_USER} \
@@ -20,4 +20,5 @@ wp user create ${WP_USER} ${WP_USER_EMAIL} \
 								--user_pass=${WP_USER_PASS}
 wp option update home ${DOMAIN_NAME}
 wp option update siteurl ${DOMAIN_NAME}
-php-fpm${PHP_VERSION} -f
+
+php-fpm -f
