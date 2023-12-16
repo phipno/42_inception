@@ -1,0 +1,51 @@
+services:
+  nginx:
+    container_name: nginx
+    depends_on: 
+      - wordpress
+    build: ./requirements/nginx/
+    ports:
+      - "443:443"
+    networks:
+      - botnet
+    volumes:
+      - wordpress_vol:/var/www/
+    restart: on-failure
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    build: ./requirements/wordpress/
+    networks:
+      - botnet
+    volumes:
+      - wordpress_vol:/var/www/
+    env_file:
+      - .env
+    restart: on-failure
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb/
+    networks:
+      - botnet
+    volumes:
+      - database_vol:/var/lib/mysql
+    env_file:
+      - .env
+    restart: on-failure
+networks:
+  botnet:
+    driver: bridge
+volumes:
+  database_vol:
+    driver: "local"
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$HOME/data/db"
+  wordpress_vol:
+    driver: "local"
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$HOME/data/www"
