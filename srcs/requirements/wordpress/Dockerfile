@@ -16,10 +16,7 @@ ENV WP_EMAIL phipno@gmail.com
 
 RUN apk update
 
-RUN apk add --no-cache zip unzip curl sqlite nginx supervisor mariadb-client
-
-RUN apk add bash
-RUN sed -i 's/bin\/ash/bin\/bash/g' /etc/passwd
+RUN apk add --no-cache curl mariadb-client
 
 RUN apk add --no-cache php${PHP_VERSION} \
     php${PHP_VERSION}-common \
@@ -45,19 +42,21 @@ RUN apk add --no-cache php${PHP_VERSION} \
     php${PHP_VERSION}-tokenizer \
     php${PHP_VERSION}-pecl-redis
 
+#set link from php version to php
 RUN ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
 
+#install wordpress
 WORKDIR /var/www/wordpress
-
-RUN wget \
-	https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
-RUN php${PHP_VERSION} -v
 RUN wp core download --allow-root --path=/var/www/wordpress
+
+#setup wordpress script
 COPY tools/setup_wordpress.sh /setup_wordpress.sh
 RUN chmod +x /setup_wordpress.sh;
 
+#execute wordpress script
 ENTRYPOINT ["/setup_wordpress.sh"]
 
 LABEL name="wordpress-alpine-php:8.3"
