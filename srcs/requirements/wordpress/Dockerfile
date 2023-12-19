@@ -39,7 +39,6 @@ RUN apk add --no-cache php${PHP_VERSION} \
     php${PHP_VERSION}-dom \
     php${PHP_VERSION}-pdo_mysql \
     php${PHP_VERSION}-pdo_sqlite \
-    php${PHP_VERSION}-tokenizer \
     php${PHP_VERSION}-pecl-redis
 
 #set link from php version to php

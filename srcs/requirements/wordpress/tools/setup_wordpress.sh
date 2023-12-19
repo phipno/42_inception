@@ -21,4 +21,4 @@ wp user create ${WP_USER} ${WP_USER_EMAIL} \
 wp option update home ${DOMAIN_NAME}
 wp option update siteurl ${DOMAIN_NAME}
 
-php-fpm -f
+php-fpm -F -R
