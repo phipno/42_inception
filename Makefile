@@ -1,6 +1,7 @@
-DADATA_DIR = ~/data
+DATA_DIR = ~/data
 
 start: $(DATA_DIR)
+#	docker-compose -f ./srcs/docker-compose.yml build --no-cache
 	docker compose -f ./srcs/docker-compose.yml up -d --build
 
 stop:

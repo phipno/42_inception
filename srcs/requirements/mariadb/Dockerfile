@@ -7,6 +7,7 @@ RUN openrc
 RUN touch /run/openrc/softlevel
 
 COPY conf/mariadb.conf /etc/my.cnf.d/my.cnf
+RUN chmod 0444 /etc/my.cnf.d/my.cnf
 RUN /etc/init.d/mariadb setup
 
 COPY tools/setup_mariadb.sh /
