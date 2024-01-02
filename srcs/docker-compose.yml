@@ -56,11 +56,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/pnolte/data/mariadb
+      device: /home/phipno/data/mariadb
 
   wordpress_v:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/pnolte/data/wordpress
+      device: /home/phipno/data/wordpress
