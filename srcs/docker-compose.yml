@@ -1,51 +1,66 @@
+version: '3.8'
+
+
+networks:
+  inception: {}
+
 services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASS}
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASS}
+    networks:
+      - inception
+    volumes:
+      - mariadb_v:/var/lib/mysql
+    restart: unless-stopped
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - inception
+    volumes:
+      - wordpress_v:/var/www/wordpress
+    env_file: .env
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
   nginx:
     container_name: nginx
-    depends_on: 
-      - wordpress
-    build: ./requirements/nginx/
+    image: nginx
+    build: ./requirements/nginx
     ports:
       - "443:443"
     networks:
-      - botnet
+      - inception
     volumes:
-      - wordpress_vol:/var/www/
-    restart: on-failure
-  wordpress:
-    container_name: wordpress
+      - wordpress_v:/var/www/wordpress
     depends_on:
+      - wordpress
       - mariadb
-    build: ./requirements/wordpress/
-    networks:
-      - botnet
-    volumes:
-      - wordpress_vol:/var/www/
-    env_file:
-      - .env
-    restart: on-failure
-  mariadb:
-    container_name: mariadb
-    build: ./requirements/mariadb/
-    networks:
-      - botnet
-    volumes:
-      - database_vol:/var/lib/mysql
-    env_file:
-      - .env
-    restart: on-failure
-networks:
-  botnet:
-    driver: bridge
+    restart: unless-stopped
+
+
 volumes:
-  database_vol:
-    driver: "local"
+  mariadb_v:
+    driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "$HOME/data/db"
-  wordpress_vol:
-    driver: "local"
+      type: none
+      o: bind
+      device: /home/pnolte/data/mariadb
+
+  wordpress_v:
+    driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "$HOME/data/www"
+      type: none
+      o: bind
+      device: /home/pnolte/data/wordpress

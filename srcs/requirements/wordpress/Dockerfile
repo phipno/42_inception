@@ -1,8 +1,4 @@
-#FROM alpine:3.19
-FROM debian:bookworm
-
-LABEL build-date="2023-12-15T14:39:42Z"
-LABEL maintainer="phipno@gmail.com"
+FROM alpine:3.19
 
 ENV PHP_VERSION 8.2
 
@@ -52,5 +48,3 @@ RUN chmod +x /setup_wordpress.sh;
 
 #execute wordpress script
 ENTRYPOINT ["/setup_wordpress.sh"]
-
-LABEL name="wordpress-alpine-php:8.3"
