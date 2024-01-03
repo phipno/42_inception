@@ -17,6 +17,7 @@ tmpdir=/tmp
 lc-messages-dir=/usr/share/mysql
 
 bind-address=0.0.0.0
+skip-networking=0
 
 # Galera-related settings
 [galera]
