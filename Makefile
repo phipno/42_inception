@@ -1,14 +1,14 @@
 all:
 	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
-	sudo docker compose -f ./srcs/docker-compose.yml up -d
+	sudo docker compose -f ./srcs/docker-compose.yml up -d --build
 
-clean:
-	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
-#	uncomment the following line to remove the images too
-#	sudo docker system prune -a
+down:
+	sudo docker compose -f ./srcs/docker-compose.yml down -v
 
 fclean:
 	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
+	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
+	sudo docker system prune -a
 	if [ -d "/home/${USER}/data/wordpress" ]; then \
 	rm -rf /home/${USER}/data/wordpress/* && \
 	echo "successfully removed all contents from /home/${USER}/data/wordpress/"; \

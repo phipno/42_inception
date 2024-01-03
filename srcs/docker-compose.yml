@@ -10,15 +10,11 @@ services:
     image: mariadb
     build:
       context: ./requirements/mariadb
-      args:
-        - DB_NAME=${DB_NAME}
-        - DB_USER=${DB_USER}
-        - DB_PASSWORD=${DB_PASS}
-        - DB_ROOT_PASSWORD=${DB_ROOT_PASS}
     networks:
       - inception
     volumes:
       - mariadb_v:/var/lib/mysql
+    env_file: .env
     restart: unless-stopped
 
   wordpress:
@@ -56,11 +52,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/phipno/data/mariadb
+      device: /home/ssh_user/data/mariadb
 
   wordpress_v:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/phipno/data/wordpress
+      device: /home/ssh_user/data/wordpress

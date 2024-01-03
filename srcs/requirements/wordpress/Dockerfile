@@ -1,14 +1,14 @@
-FROM alpine:3.19
+FROM alpine:3.18
 
-ENV PHP_VERSION 8.2
+ENV PHP_VERSION 81
 
-# RUN apk update
+RUN apk update
 
 # RUN apk add --no-cache curl mariadb-client
 
 # RUN apk add --no-cache php${PHP_VERSION} \
 
-RUN apt update && apt -y install curl mariadb-client php${PHP_VERSION} wget \
+RUN apk add --no-cache curl mariadb-client php${PHP_VERSION} wget \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-pdo \
@@ -40,7 +40,7 @@ WORKDIR /var/www/wordpress
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
-RUN wp core download --allow-root --path=/var/www/
+RUN wp core download --allow-root --path=/var/www/wordpress
 
 #setup wordpress script
 COPY tools/setup_wordpress.sh /setup_wordpress.sh
