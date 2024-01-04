@@ -10,12 +10,12 @@ fclean:
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
 	sudo docker system prune -a
 	if [ -d "/home/${USER}/data/wordpress" ]; then \
-	rm -rf /home/${USER}/data/wordpress/* && \
+	sudo rm -rf /home/${USER}/data/wordpress/* && \
 	echo "successfully removed all contents from /home/${USER}/data/wordpress/"; \
 	fi;
 
 	if [ -d "/home/${USER}data/mariadb" ]; then \
-	rm -rf /home/${USER}/data/mariadb/* && \
+	sudo rm -rf /home/${USER}/data/mariadb/* && \
 	echo "successfully removed all contents from /home/${USER}/data/mariadb/"; \
 	fi;
 
