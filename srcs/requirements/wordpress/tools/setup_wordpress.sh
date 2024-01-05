@@ -20,9 +20,8 @@ wp core install --allow-root \
 	--admin_user=${WP_ADMIN_USER} \
 	--admin_password=${WP_ADMIN_PASS} \
 	--admin_email=${WP_ADMIN_EMAIL}
-wp user create ${WP_USER} ${WP_USER_EMAIL} \
-	--user_pass=${WP_USER_PASS} \
-	--allow-root
+wp user create ${WP_USER_NAME} ${WP_USER_EMAIL} \
+	--user_pass=${WP_USER_PASS}
 wp option update home ${DOMAIN_NAME} --allow-root
 wp option update siteurl ${DOMAIN_NAME} --allow-root
 

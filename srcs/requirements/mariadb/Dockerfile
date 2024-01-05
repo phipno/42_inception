@@ -11,7 +11,7 @@ RUN mariadb-install-db --user=mysql --datadir=/var/lib/mysql --skip-test-db
 EXPOSE 3306
 
 COPY ./conf/config.sh /config.sh
-
 RUN chmod +x /config.sh
+
 
 ENTRYPOINT ["/config.sh"]

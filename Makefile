@@ -1,4 +1,21 @@
 all:
+	if [ -d "/home/pnolte/data" ]; then \
+		echo "/home/pnolte/data already exists"; else \
+		sudo mkdir /home/pnolte/data; \
+		echo "data directory created successfully"; \
+	fi
+
+	if [ -d "/home/pnolte/data/wordpress" ]; then \
+		echo "/home/pnolte/data/wordpress already exists"; else \
+		sudo mkdir /home/pnolte/data/wordpress; \
+		echo "wordpress directory created successfully"; \
+	fi
+
+	if [ -d "/home/pnolte/data/mariadb" ]; then \
+		echo "/home/pnolte/data/mariadb already exists"; else \
+		sudo mkdir /home/pnolte/data/mariadb; \
+		echo "mariadb directory created successfully"; \
+	fi
 	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
 	sudo docker compose -f ./srcs/docker-compose.yml up -d --build
 
@@ -6,7 +23,7 @@ down:
 	sudo docker compose -f ./srcs/docker-compose.yml down -v
 
 fclean:
-	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
+	# sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
 	sudo docker system prune -a --force
 	if [ -d "/home/pnolte//data/wordpress" ]; then \

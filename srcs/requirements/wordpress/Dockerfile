@@ -50,5 +50,8 @@ RUN chmod +x /setup_wordpress.sh;
 COPY conf/www.conf /etc/php${PHP_VERSION}/pool.d/www.conf
 RUN chmod +x /etc/php${PHP_VERSION}/pool.d/www.conf
 
+COPY index.html /var/www/wordpress/index.html
+RUN chmod +x /var/www/wordpress/index.html
+
 #execute wordpress script
 ENTRYPOINT ["/setup_wordpress.sh"]
