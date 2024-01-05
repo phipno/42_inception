@@ -1,8 +1,12 @@
 #!/bin/sh
 # set listening port for php fpm
-sed -i "s/listen = 127.0.0.1:9000/listen = 9000/g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-# sleep 30
-rm /var/www/wordpress/wp-config.php
+until mysql -h $DB_HOST -u $DB_USER -p$DB_PASS -e '' 2>/dev/null;do
+	echo "waiting for mariadb..."
+	sleep 1
+done
+
+sed -i "s/listen = 127.0.0.1:9000/listen = 9000/g" /etc/php${PHP_VERSION}/pool.d/www.conf
+# rm /var/www/wordpress/wp-config.php
 wp config create --allow-root \
 	--dbname=${DB_NAME} \
 	--dbuser=${DB_USER} \

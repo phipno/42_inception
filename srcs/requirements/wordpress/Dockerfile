@@ -28,7 +28,8 @@ RUN apk add --no-cache curl mariadb-client php${PHP_VERSION} wget \
     php${PHP_VERSION}-simplexml \
     php${PHP_VERSION}-dom \
     # php${PHP_VERSION}-pdo_mysql \
-    php${PHP_VERSION}-mysqli 
+    php${PHP_VERSION}-mysqli  \
+    mariadb-client
     # php${PHP_VERSION}-pdo_sqlite \
     # php${PHP_VERSION}-pecl-redis
 
@@ -45,6 +46,9 @@ RUN wp core download --allow-root --path=/var/www/wordpress
 #setup wordpress script
 COPY tools/setup_wordpress.sh /setup_wordpress.sh
 RUN chmod +x /setup_wordpress.sh;
+
+COPY conf/www.conf /etc/php${PHP_VERSION}/pool.d/www.conf
+RUN chmod +x /etc/php${PHP_VERSION}/pool.d/www.conf
 
 #execute wordpress script
 ENTRYPOINT ["/setup_wordpress.sh"]

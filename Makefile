@@ -8,15 +8,15 @@ down:
 fclean:
 	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
-	sudo docker system prune -a
-	if [ -d "/home/${USER}/data/wordpress" ]; then \
-	sudo rm -rf /home/${USER}/data/wordpress/* && \
-	echo "successfully removed all contents from /home/${USER}/data/wordpress/"; \
+	sudo docker system prune -a --force
+	if [ -d "/home/pnolte//data/wordpress" ]; then \
+	sudo rm -rf /home/pnolte//data/wordpress/* && \
+	echo "successfully removed all contents from /home/pnolte/data/wordpress/"; \
 	fi;
 
-	if [ -d "/home/${USER}data/mariadb" ]; then \
-	sudo rm -rf /home/${USER}/data/mariadb/* && \
-	echo "successfully removed all contents from /home/${USER}/data/mariadb/"; \
+	if [ -d "/home/pnolte/data/mariadb" ]; then \
+	sudo rm -rf /home/pnolte//data/mariadb/* && \
+	echo "successfully removed all contents from /home/pnolte/data/mariadb/"; \
 	fi;
 
 re: fclean all
