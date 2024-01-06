@@ -37,11 +37,11 @@ RUN apk add --no-cache curl mariadb-client php${PHP_VERSION} wget \
 #RUN ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
 
 #install wordpress
-WORKDIR /var/www/wordpress
+WORKDIR /var/www/html
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
-RUN wp core download --allow-root --path=/var/www/wordpress
+RUN wp core download --allow-root --path=/var/www/html
 
 #setup wordpress script
 COPY tools/setup_wordpress.sh /setup_wordpress.sh
@@ -50,8 +50,9 @@ RUN chmod +x /setup_wordpress.sh;
 COPY conf/www.conf /etc/php${PHP_VERSION}/pool.d/www.conf
 RUN chmod +x /etc/php${PHP_VERSION}/pool.d/www.conf
 
-COPY index.html /var/www/wordpress/index.html
-RUN chmod +x /var/www/wordpress/index.html
+COPY index.html /var/www/html/index.html
+RUN chmod +x /var/www/html/index.html
 
+EXPOSE 9000
 #execute wordpress script
 ENTRYPOINT ["/setup_wordpress.sh"]

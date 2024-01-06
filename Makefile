@@ -16,14 +16,12 @@ all:
 		sudo mkdir /home/pnolte/data/mariadb; \
 		echo "mariadb directory created successfully"; \
 	fi
-	sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
 	sudo docker compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
 	sudo docker compose -f ./srcs/docker-compose.yml down -v
 
 fclean:
-	# sudo sh -c 'echo "127.0.0.1 pnolte.42.fr" >> /etc/hosts' && echo "successfully added pnolte.42.fr to /etc/hosts"
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
 	sudo docker system prune -a --force
 	if [ -d "/home/pnolte//data/wordpress" ]; then \

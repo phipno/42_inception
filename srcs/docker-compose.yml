@@ -9,7 +9,6 @@ networks:
 services:
   mariadb:
     container_name: mariadb
-    image: mariadb
     build:
       context: ./requirements/mariadb
     networks:
@@ -21,12 +20,11 @@ services:
 
   wordpress:
     container_name: wordpress
-    image: wordpress
     build: ./requirements/wordpress
     networks:
       - inception
     volumes:
-      - wordpress_v:/var/www/wordpress
+      - wordpress_v:/var/www/html
     env_file: .env
     depends_on:
       - mariadb
@@ -34,14 +32,13 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx
     build: ./requirements/nginx
     ports:
       - "443:443"
     networks:
       - inception
     volumes:
-      - wordpress_v:/var/www/wordpress
+      - wordpress_v:/var/www/html
     depends_on:
       - wordpress
       - mariadb
