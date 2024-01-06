@@ -21,6 +21,17 @@ all:
 down:
 	sudo docker compose -f ./srcs/docker-compose.yml down -v
 
+reset:
+	if [ -d "/home/pnolte//data/wordpress" ]; then \
+	sudo rm -rf /home/pnolte//data/wordpress/* && \
+	echo "successfully removed all contents from /home/pnolte/data/wordpress/"; \
+	fi;
+
+	if [ -d "/home/pnolte/data/mariadb" ]; then \
+	sudo rm -rf /home/pnolte//data/mariadb/* && \
+	echo "successfully removed all contents from /home/pnolte/data/mariadb/"; \
+	fi;
+	
 fclean:
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
 	sudo docker system prune -a --force

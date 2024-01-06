@@ -5,6 +5,8 @@ until mysql -h $DB_HOST -u $DB_USER -p$DB_PASS -e '' 2>/dev/null;do
 	sleep 1
 done
 
+sed -i "s/listen = 127.0.0.1:9000/listen = 9000/g" /etc/php81/php-fpm.d/www.conf
+
 # rm /var/www/wordpress/wp-config.php
 wp config create --allow-root \
 	--dbname=${DB_NAME} \
@@ -24,11 +26,4 @@ wp user create ${WP_USER_NAME} ${WP_USER_EMAIL} \
 wp option update home ${DOMAIN_NAME} --allow-root
 wp option update siteurl ${DOMAIN_NAME} --allow-root
 
-sed -i "s|if ( ! defined( 'WP_DEBUG' ) ) {|// if ( ! defined( 'WP_DEBUG' ) ) {|g" /var/www/html/wp-config.php
-sed -i "s|define( 'WP_DEBUG', false );|define( 'WP_DEBUG', true );\ndefine( 'WP_DEBUG_LOG', true );|g" /var/www/html/wp-config.php
-sed -i "s|}|// }|g" /var/www/html/wp-config.php
-
-echo "define('WP_MEMORY_LIMIT', '256M');"" >> /var/www/html/wp-config.php
-
-
-/usr/sbin/php-fpm${PHP_VERSION} -F
+php-fpm${PHP_VERSION} -F
