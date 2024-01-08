@@ -1,0 +1,13 @@
+sudo docker stop $(sudo docker ps -qa);
+sudo docker rm $(sudo docker ps -qa);
+sudo docker rmi -f $(sudo docker images -qa);
+sudo docker volume rm $(sudo docker volume ls -q);
+sudo docker network rm $(sudo docker network ls -q);
+
+docker exec -it mariadb sh
+mysql -u DB_User -p
+show databases;
+USE wordpress;
+SHOW TABLES; → if there is sth, it's not empty
+SELECT COUNT(*) FROM wp_users;
+sudo reboot
